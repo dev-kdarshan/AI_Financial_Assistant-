@@ -856,9 +856,8 @@ VITE_GOOGLE_CLIENT_ID=your_google_client_id
 ---
 
 ## Additional Resources
-```bash
+
 - [Backend README](./backend/README.md) : Backend setup, models, routes, troubleshooting
 - [Frontend README](./frontend/README.md) : Frontend setup, pages, services, troubleshooting
 - [API Documentation](./docs/API.md) : Complete REST API reference with request and response shapes
 - [Migration Script](./backend/scripts/migrate.sql) : Database schema creation and column changes
-```
