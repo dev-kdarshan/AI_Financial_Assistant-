@@ -1,0 +1,19 @@
+uvicorn app.main:app --reload --port 8003
+1 - docker run -p 6379:6379 redis 
+2 - python -m celery -A app.scheduler.celery worker --pool=solo --loglevel=info
+3 - python -m celery -A app.scheduler.celery beat --loglevel=info
+
+http://localhost:8005/notify/sms
+
+{
+  "to_phone": "+919067149396",
+  "message": "AIFA Alert: Your expense summary for today is ready. Open the app to view AI insights and spending trends"
+}
+
+http://localhost:8005/notify/email
+
+{
+  "to_email": "darshankhute.work@gmail.com",
+  "subject": "AIFA Monthly Expense Summary - May 2026",
+  "content": "<h2 style='color:#071a2f;'>AIFA Monthly Expense Summary</h2><p>Hello Sarthak,</p><p>This is a system-generated summary of your financial activity for <strong>May 2026</strong>.</p><p>Our AI financial analytics engine has completed the preliminary analysis of your monthly transactions and spending behavior.</p><h3 style='color:#1d243d;'>Monthly Financial Glimpse</h3><ul><li><strong>Total Income:</strong> ₹58,000</li><li><strong>Total Expenses:</strong> ₹34,750</li><li><strong>Online Expenses:</strong> ₹21,300</li><li><strong>Offline Expenses:</strong> ₹13,450</li><li><strong>Total Savings:</strong> ₹23,250</li></ul><p>Additional AI-generated insights including spending trends, recurring expense detection, category analysis, and personalized financial recommendations are currently being prepared.</p><p>Your detailed <strong>Monthly Financial Report</strong> will be delivered to your registered email within the next <strong>2 working days</strong>.</p><br><p>— AIFA Financial Assistant</p><p style='font-size:12px;color:#666;'>This is an automated system-generated email from AIFA.</p>"
+}

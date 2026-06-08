@@ -1,0 +1,156 @@
+{
+  "user_id": "darshan_user",
+  "monthly_income": 85000,
+  "expenses": [
+    {
+      "category": "Food",
+      "amount": 9200
+    },
+    {
+      "category": "Travel",
+      "amount": 11800
+    },
+    {
+      "category": "Shopping",
+      "amount": 7600
+    },
+    {
+      "category": "Bills",
+      "amount": 14500
+    },
+    {
+      "category": "Entertainment",
+      "amount": 4300
+    },
+    {
+      "category": "Healthcare",
+      "amount": 2800
+    },
+    {
+      "category": "Investments",
+      "amount": 12000
+    },
+    {
+      "category": "Subscriptions",
+      "amount": 1800
+    },
+    {
+      "category": "Education",
+      "amount": 3500
+    }
+  ],
+  "monthly_trend": [
+    {
+      "day": "Day 1",
+      "amount": 1200
+    },
+    {
+      "day": "Day 2",
+      "amount": 1850
+    },
+    {
+      "day": "Day 3",
+      "amount": 950
+    },
+    {
+      "day": "Day 4",
+      "amount": 2100
+    },
+    {
+      "day": "Day 5",
+      "amount": 3200
+    },
+    {
+      "day": "Day 6",
+      "amount": 800
+    },
+    {
+      "day": "Day 7",
+      "amount": 1450
+    },
+    {
+      "day": "Day 8",
+      "amount": 4800
+    },
+    {
+      "day": "Day 9",
+      "amount": 2600
+    },
+    {
+      "day": "Day 10",
+      "amount": 1750
+    },
+    {
+      "day": "Day 11",
+      "amount": 900
+    },
+    {
+      "day": "Day 12",
+      "amount": 5400
+    },
+    {
+      "day": "Day 13",
+      "amount": 1600
+    },
+    {
+      "day": "Day 14",
+      "amount": 1350
+    },
+    {
+      "day": "Day 15",
+      "amount": 7200
+    },
+    {
+      "day": "Day 16",
+      "amount": 2500
+    },
+    {
+      "day": "Day 17",
+      "amount": 2050
+    },
+    {
+      "day": "Day 18",
+      "amount": 1100
+    },
+    {
+      "day": "Day 19",
+      "amount": 2900
+    },
+    {
+      "day": "Day 20",
+      "amount": 6100
+    },
+    {
+      "day": "Day 21",
+      "amount": 1500
+    },
+    {
+      "day": "Day 22",
+      "amount": 1800
+    },
+    {
+      "day": "Day 23",
+      "amount": 950
+    },
+    {
+      "day": "Day 24",
+      "amount": 3900
+    },
+    {
+      "day": "Day 25",
+      "amount": 4500
+    },
+    {
+      "day": "Day 26",
+      "amount": 2400
+    },
+    {
+      "day": "Day 27",
+      "amount": 1550
+    },
+    {
+      "day": "Day 28",
+      "amount": 3700
+    }
+  ]
+}

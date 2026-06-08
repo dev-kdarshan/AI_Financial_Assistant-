@@ -1,0 +1,26 @@
+input - 
+
+{
+  "user_id": "darshan_001",
+  "question": "Where am I spending too much money?",
+  "expenses": [
+    {
+      "amount": 450,
+      "category": "food",
+      "datetime": "2026-05-01",
+      "description": "Paid to Zomato"
+    },
+    {
+      "amount": 1200,
+      "category": "travel",
+      "datetime": "2026-05-02",
+      "description": "Uber ride to airport"
+    },
+    {
+      "amount": 900,
+      "category": "food",
+      "datetime": "2026-05-03",
+      "description": "Swiggy dinner order"
+    }
+  ]
+}

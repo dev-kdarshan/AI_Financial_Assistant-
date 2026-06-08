@@ -1,0 +1,119 @@
+## AIFA — Final Task List
+
+---
+
+### Phase 1: Database Migration
+
+1. Write `scripts/migrate.sql` — raw SQL for all changes on existing tables:
+   - `expenses`: rename `type` → `source`, change enum to `ocr|gpay|manual`, add `description`, add `transactionId` (nullable FK), add `isAiSuggested` (boolean default false), add `deletedAt`
+   - `transactions`: add `type` (enum: debit|credit), add `recipient`, add `deletedAt`
+   - Run this once manually against PostgreSQL before starting Node
+
+---
+
+### Phase 2: Database Models (Node.js)
+
+2. Update `Expense.model.js` — match new columns exactly as migrated
+3. Update `Transaction.model.js` — match new columns exactly as migrated
+4. Create `AIConversation.model.js` — id, userId, title, context (TEXT), messageCount, deletedAt, timestamps
+5. Create `AIMessage.model.js` — id, conversationId, userId, role (enum: user|assistant), content (TEXT), contextUsed (TEXT nullable), tokensUsed (int nullable), timestamps
+6. Create `NotificationLog.model.js` — id, userId, type (enum: email|sms|reminder|monthly-report), channel (enum: email|sms), recipient, subject, status (enum: sent|failed|pending), taskId, timestamps
+7. Update `models/index.js` — import all 6 models, declare all associations and FK relationships in one place
+
+---
+
+### Phase 3: Fix Node↔Python Service Files (Mismatches)
+
+8. Fix `ocr.service.js` — change to `POST /ocr/extract` with multipart file upload using form-data
+9. Fix `gpay.service.js` — change to `POST /gpay/parse` with multipart file upload
+10. Fix `prediction.service.js` — change endpoint to `/analytics/analyze`, fix request payload shape to `{ expenses: [...] }`
+11. Fix `notification.service.js` — split into 4 functions: `POST /notify/email`, `POST /notify/sms`, `POST /notify/reminder`, `POST /notify/monthly-report`
+
+---
+
+### Phase 4: Controllers
+
+12. Update `expense.controller.js` — add `getExpenseById`, update `addExpense` to handle source (ocr|gpay|manual), add `softDeleteExpense` (sets `deletedAt`), all queries filter `deletedAt IS NULL`
+13. Update `gpay.controller.js` — receive uploaded file, forward to GPay service, save each returned transaction to both `transactions` table and `expenses` table (source: gpay), return saved records
+14. Update `transaction.controller.js` — add `softDeleteTransaction`, all queries filter `deletedAt IS NULL`
+15. Update `analytics.controller.js` — fetch user expenses from DB first, forward to `/analytics/analyze`, return result
+16. Write `report.controller.js` — fetch user expenses + monthly trend + salary from DB, forward to `POST /generate-report`, return PDF url
+17. Write `chat.controller.js` — fetch user + expenses from DB, call AI service, create/reuse `AIConversation` row, save both user message and assistant reply as `AIMessage` rows, return response
+18. Write `notification.controller.js` — call correct notification service sub-endpoint, save row to `notification_logs` with status pending, return task_id
+
+---
+
+### Phase 5: Routes
+
+19. Audit existing routes — confirm JWT middleware is applied on every protected route
+20. Add chat routes — `POST /chat/ask`, `GET /chat/conversations`, `GET /chat/conversations/:id/messages`
+21. Add soft delete routes — `DELETE /expenses/:id`, `DELETE /transactions/:id`
+22. Add notification route — `POST /notifications/send`
+23. Add report route — `POST /reports/generate` (if missing)
+
+---
+
+### Phase 6: Service Connection Tests (Node↔Python)
+
+24. Test OCR — upload receipt image via Node, confirm merchant + amount + date returned, confirm expense saved to DB
+25. Test GPay — upload `activity.html` via Node, confirm transaction array returned, confirm rows created in both `transactions` and `expenses`
+26. Test Analytics — call via Node, confirm expenses fetched from DB and forwarded correctly, confirm breakdown + prediction + insights returned
+27. Test AI — send question via Node, confirm expenses forwarded, confirm `ai_conversations` and `ai_messages` rows saved, confirm answer returned
+28. Test Report — call via Node, confirm payload built from DB correctly, confirm PDF path returned
+29. Test Notification — call via Node, confirm correct sub-endpoint hit, confirm `notification_logs` row created
+
+---
+
+### Phase 7: React — Setup and Services
+
+30. Set up folder structure — `pages/`, `components/`, `hooks/`, `services/`, `context/`
+31. Write `api.js` — axios instance with base URL from `.env`, JWT token attached via request interceptor, 401 redirect via response interceptor
+32. Write `authService.js` — register, verifyOTP, login, googleLogin, logout, token storage
+33. Write `expenseService.js` — addManual, addFromOCR (file upload), getAll, getById, softDelete
+34. Write `gpayService.js` — uploadActivityFile, getTransactions, softDeleteTransaction
+35. Write `analyticsService.js` — getAnalytics
+36. Write `chatService.js` — sendMessage, getConversations, getConversationMessages
+37. Write `reportService.js` — generateReport
+38. Write `notificationService.js` — sendNotification
+
+---
+
+### Phase 8: React — Pages and Components
+
+39. Build `AuthPage` — login form, register form, OTP verify screen, Google login button
+40. Build `DashboardPage` — total spent card, top category card, monthly comparison card, recent expenses list
+41. Build `ExpensePage` — 3 tabs: manual input form, scan slip (file upload + OCR prefilled form preview), GPay import (file upload + review table with per-row soft delete)
+42. Build `AnalyticsPage` — bar chart (monthly spend), pie chart (by category), next month prediction card, AI insights bullets
+43. Build `AiChatPage` — conversation list sidebar, chat window with message bubbles, input box, new conversation button
+44. Build `ReportPage` — generate button, loading state, PDF download link
+45. Build `NotificationsPage` — send email/SMS form, log table of past notifications with status
+46. Build shared components — `Navbar`, `Sidebar`, `ProtectedRoute`, `LoadingSpinner`, `ToastNotification`, `SoftDeleteConfirmModal`
+
+---
+
+### Phase 9: Connect React to Node
+
+47. Connect auth — register → OTP verify → login → store JWT → redirect to dashboard, Google OAuth flow
+48. Connect expense flows — manual form POST, OCR upload shows prefilled form from response, GPay import shows review table from response
+49. Connect analytics — fetch on page load, render charts from response data
+50. Connect AI chat — send message, save to conversation, render reply, load past conversations
+51. Connect report — trigger generate, await response, render download link
+52. Connect notifications — send from form, show toast on success, refresh log table
+53. Handle loading states — every service call shows spinner, buttons disabled during request
+54. Handle errors globally — 401 interceptor redirects to login, 500 shows toast with message
+
+---
+
+### Phase 10: Final Checks
+
+55. Verify all 6 Python services are reachable — add startup health check in Node that pings each service root endpoint and logs status
+56. Verify `.env` has all required keys — DB url, JWT secret, all 6 service URLs, Groq API key, SendGrid key, Twilio keys, Google OAuth client ID
+57. Verify soft delete — deleted expenses and transactions do not appear in any list, analytics query, AI context, or report data
+58. Verify AI isolation — AI service only receives the logged-in user's own expenses, no data leakage between users
+59. Verify GPay dual-save — every imported transaction appears in both `transactions` and `expenses` tables with correct `source: gpay` and `deletedAt: null`
+60. Verify file handling — OCR slip image saved to storage correctly, GPay HTML file processed and discarded (not persisted)
+
+---
+
+**60 tasks. 10 phases. Order is strict — do not start a phase until the previous one is complete.**
+
