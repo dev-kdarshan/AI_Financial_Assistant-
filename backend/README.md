@@ -18,6 +18,7 @@ Express.js backend service providing REST API for the AI-powered financial assis
 ---
 
 ## Project Structure
+```
 backend/
 ├── scripts/
 │   └── migrate.sql               — One-time SQL migration for schema changes
@@ -75,7 +76,7 @@ backend/
 ├── app.js                    — Express app setup, middleware, routes
 ├── package.json
 └── server.js                 — DB connect, model sync, server start
-
+```
 ---
 
 ## Prerequisites
@@ -98,6 +99,7 @@ npm install
 ## Environment Configuration
 
 Your `.env` file must have all of these keys:
+```bash
 PORT=5000
 Database
 DB_HOST=localhost
@@ -120,7 +122,7 @@ AI_SERVICE_URL=http://localhost:8003
 ANALYTICS_SERVICE_URL=http://localhost:8004
 NOTIFICATION_SERVICE_URL=http://localhost:8005
 REPORT_SERVICE_URL=http://localhost:8006
-
+```
 ---
 
 ## Database Setup
@@ -170,6 +172,7 @@ npm start
 ## Database Schema
 
 ### users
+```bash
 id          UUID PK
 name        STRING NOT NULL
 email       STRING UNIQUE NOT NULL
@@ -180,8 +183,10 @@ googleId    STRING nullable
 isVerified  BOOLEAN default false
 createdAt   TIMESTAMP
 updatedAt   TIMESTAMP
+```
 
 ### expenses
+```bash
 id             UUID PK
 userId         UUID FK → users (CASCADE)
 amount         FLOAT NOT NULL
@@ -196,8 +201,10 @@ isAiSuggested  BOOLEAN default false
 deletedAt      TIMESTAMP nullable  ← soft delete
 createdAt      TIMESTAMP
 updatedAt      TIMESTAMP
+```
 
 ### transactions
+```bash
 id          UUID PK
 userId      UUID FK → users (CASCADE)
 amount      FLOAT NOT NULL
@@ -209,8 +216,10 @@ source      ENUM (gpay | manual) NOT NULL
 deletedAt   TIMESTAMP nullable  ← soft delete
 createdAt   TIMESTAMP
 updatedAt   TIMESTAMP
+```
 
 ### ai_conversations
+```bash
 id           UUID PK
 userId       UUID FK → users (CASCADE)
 title        STRING nullable
@@ -219,8 +228,10 @@ messageCount INTEGER default 0
 deletedAt    TIMESTAMP nullable  ← soft delete
 createdAt    TIMESTAMP
 updatedAt    TIMESTAMP
+```
 
 ### ai_messages
+```bash
 id             UUID PK
 conversationId UUID FK → ai_conversations (CASCADE)
 userId         UUID FK → users (CASCADE)
@@ -230,8 +241,10 @@ contextUsed    TEXT nullable  ← RAG chunks used for this response
 tokensUsed     INTEGER nullable
 createdAt      TIMESTAMP
 updatedAt      TIMESTAMP
+```
 
 ### notification_logs
+```bash
 id        UUID PK
 userId    UUID FK → users (CASCADE)
 type      ENUM (email | sms | reminder | monthly-report) NOT NULL
@@ -242,6 +255,7 @@ status    ENUM (sent | failed | pending) default pending
 taskId    STRING nullable  ← Celery task ID from notification service
 createdAt TIMESTAMP
 updatedAt TIMESTAMP
+```
 
 ---
 

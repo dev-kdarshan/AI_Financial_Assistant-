@@ -560,7 +560,7 @@ Fetches all non-deleted expenses from DB and forwards to the Python analytics se
 
 Headers: `Authorization: Bearer <token>`
 
-Response (200) — when expenses exist:
+Response (200) - when expenses exist:
 ```json
 {
   "success": true,
@@ -582,7 +582,7 @@ Response (200) — when expenses exist:
 }
 ```
 
-Response (200) — when no expenses:
+Response (200) - when no expenses:
 ```json
 {
   "success": true,
@@ -603,14 +603,14 @@ Send a question to the AI assistant. Fetches user expenses from DB automatically
 
 Headers: `Authorization: Bearer <token>`
 
-Request — new conversation:
+Request - new conversation:
 ```json
 {
   "question": "What am I spending the most on this month?"
 }
 ```
 
-Request — continue existing conversation:
+Request - continue existing conversation:
 ```json
 {
   "question": "How can I reduce that?",
@@ -722,7 +722,7 @@ Response (200):
 }
 ```
 
-Response (400) — when no expenses:
+Response (400) - when no expenses:
 ```json
 {
   "success": false,
@@ -775,7 +775,7 @@ Response (200):
 }
 ```
 
-Response (502) — when notification service is down:
+Response (502) - when notification service is down:
 ```json
 {
   "success": false,
@@ -833,6 +833,7 @@ Response (200):
 # Data Models Reference
 
 ## Expense object
+```bash
 id            UUID
 userId        UUID (FK to users)
 amount        FLOAT
@@ -847,8 +848,10 @@ isAiSuggested BOOLEAN default false
 deletedAt     TIMESTAMP nullable (soft delete)
 createdAt     TIMESTAMP
 updatedAt     TIMESTAMP
+```
 
 ## Transaction object
+```bash
 id          UUID
 userId      UUID (FK to users)
 amount      FLOAT
@@ -860,8 +863,10 @@ source      ENUM (gpay|manual)
 deletedAt   TIMESTAMP nullable (soft delete)
 createdAt   TIMESTAMP
 updatedAt   TIMESTAMP
+```
 
 ## AIConversation object
+```bash
 id           UUID
 userId       UUID (FK to users)
 title        STRING nullable
@@ -870,8 +875,10 @@ messageCount INTEGER default 0
 deletedAt    TIMESTAMP nullable
 createdAt    TIMESTAMP
 updatedAt    TIMESTAMP
+```
 
 ## AIMessage object
+```bash
 id             UUID
 conversationId UUID (FK to ai_conversations)
 userId         UUID (FK to users)
@@ -881,8 +888,10 @@ contextUsed    TEXT nullable
 tokensUsed     INTEGER nullable
 createdAt      TIMESTAMP
 updatedAt      TIMESTAMP
+```
 
 ## NotificationLog object
+```bash
 id        UUID
 userId    UUID (FK to users)
 type      ENUM (email|sms|reminder|monthly-report)
@@ -893,8 +902,10 @@ status    ENUM (sent|failed|pending)
 taskId    STRING nullable
 createdAt TIMESTAMP
 updatedAt TIMESTAMP
+```
 
 ## User object
+```bash
 id         UUID
 name       STRING
 email      STRING unique
@@ -905,18 +916,19 @@ googleId   STRING nullable
 isVerified BOOLEAN default false
 createdAt  TIMESTAMP
 updatedAt  TIMESTAMP
+```
 
 ---
 
 # Important Notes for Frontend Integration
 
-1. Token is at root level in login response — `response.token` not `response.data.token`
-2. All list responses have `data` as an array directly — `response.data` is the array
+1. Token is at root level in login response - `response.token` not `response.data.token`
+2. All list responses have `data` as an array directly - `response.data` is the array
 3. Expense field is `merchantName` not `merchant`
 4. User name is a single `name` field not `firstName` + `lastName`
-5. Soft delete means records stay in DB — just `deletedAt` gets set
+5. Soft delete means records stay in DB - just `deletedAt` gets set
 6. GPay import saves to both transactions AND expenses automatically
-7. Analytics, AI, and Report endpoints fetch data from DB themselves — frontend only needs to call the endpoint with a token, no need to pass expenses in body
-8. Notification recipient is fetched from user profile automatically — do not pass it from frontend
+7. Analytics, AI, and Report endpoints fetch data from DB themselves - frontend only needs to call the endpoint with a token, no need to pass expenses in body
+8. Notification recipient is fetched from user profile automatically - do not pass it from frontend
 9. All amounts are in Indian Rupees (INR)
 10. All dates are returned as ISO 8601 strings

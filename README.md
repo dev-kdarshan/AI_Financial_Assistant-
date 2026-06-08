@@ -1,4 +1,4 @@
-# AIFA — AI-Powered Finance Assistant
+# AIFA : AI-Powered Finance Assistant
 ## Technical Architecture & How It Works
 
 ---
@@ -25,18 +25,19 @@ AIFA is an AI-powered personal finance management web application. It helps user
 
 ### Key Features
 
-- **Receipt Scanning** — Upload payment slips, OCR extracts merchant, amount, and date automatically
-- **Google Pay Import** — Upload `activity.html` exported from Google Pay, all transactions parsed and saved
-- **Manual Expense Entry** — Add expenses directly with category, date, merchant, and description
-- **AI Chat Assistant** — Ask questions about your spending, powered by Groq LLM with RAG context from ChromaDB
-- **Smart Analytics** — Category breakdown, monthly trends, next month spending prediction, AI insights
-- **PDF Report Generation** — Professional branded PDF with charts and AI-powered insights
-- **Email and SMS Notifications** — Spending alerts and monthly summaries via SendGrid and Twilio
-- **Soft Delete** — All deletions are reversible, data is never permanently lost
+- **Receipt Scanning** : Upload payment slips, OCR extracts merchant, amount, and date automatically
+- **Google Pay Import** : Upload `activity.html` exported from Google Pay, all transactions parsed and saved
+- **Manual Expense Entry** : Add expenses directly with category, date, merchant, and description
+- **AI Chat Assistant** : Ask questions about your spending, powered by Groq LLM with RAG context from ChromaDB
+- **Smart Analytics** : Category breakdown, monthly trends, next month spending prediction, AI insights
+- **PDF Report Generation** : Professional branded PDF with charts and AI-powered insights
+- **Email and SMS Notifications** : Spending alerts and monthly summaries via SendGrid and Twilio
+- **Soft Delete** : All deletions are reversible, data is never permanently lost
 
 ---
 
 ## System Architecture
+```bash
 ┌─────────────────────────────────────────────────────────────┐
 │                      CLIENT LAYER                           │
 │                                                             │
@@ -107,6 +108,7 @@ Port 5000
 │   Twilio (SMS notifications)                               │
 │   Celery + Redis (Async task queue for notifications)      │
 └─────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -137,14 +139,15 @@ Port 5000
 ---
 
 ## Project Structure
+```bash
 AIFA/
-├── backend/                          — Express.js API gateway
+├── backend/                          : Express.js API gateway
 │   ├── scripts/
-│   │   └── migrate.sql               — One-time DB migration script
+│   │   └── migrate.sql               : One-time DB migration script
 │   ├── src/
 │   │   ├── config/
-│   │   │   ├── db.js                 — Sequelize + PostgreSQL connection
-│   │   │   └── env.js                — Environment variable exports
+│   │   │   ├── db.js                 : Sequelize + PostgreSQL connection
+│   │   │   └── env.js                : Environment variable exports
 │   │   ├── controllers/
 │   │   │   ├── analytics.controller.js
 │   │   │   ├── auth.controller.js
@@ -156,11 +159,11 @@ AIFA/
 │   │   │   ├── transaction.controller.js
 │   │   │   └── user.controller.js
 │   │   ├── middlewares/
-│   │   │   ├── auth.middleware.js    — JWT verify, attaches req.user
-│   │   │   ├── errorHandler.js       — Global error handler
-│   │   │   └── upload.middleware.js  — Multer memory storage
+│   │   │   ├── auth.middleware.js    : JWT verify, attaches req.user
+│   │   │   ├── errorHandler.js       : Global error handler
+│   │   │   └── upload.middleware.js  : Multer memory storage
 │   │   ├── models/
-│   │   │   ├── index.js              — All models + associations + sync
+│   │   │   ├── index.js              : All models + associations + sync
 │   │   │   ├── AIConversation.model.js
 │   │   │   ├── AIMessage.model.js
 │   │   │   ├── Expense.model.js
@@ -178,36 +181,36 @@ AIFA/
 │   │   │   ├── transaction.routes.js
 │   │   │   └── user.routes.js
 │   │   ├── services/
-│   │   │   ├── chat.service.js       — Calls AI service :8003
-│   │   │   ├── gpay.service.js       — Calls GPay service :8002
-│   │   │   ├── notification.service.js — Calls notification service :8005
-│   │   │   ├── ocr.service.js        — Calls OCR service :8001
-│   │   │   ├── prediction.service.js — Calls analytics service :8004
-│   │   │   └── report.service.js     — Calls report service :8006
+│   │   │   ├── chat.service.js       : Calls AI service :8003
+│   │   │   ├── gpay.service.js       : Calls GPay service :8002
+│   │   │   ├── notification.service.js : Calls notification service :8005
+│   │   │   ├── ocr.service.js        : Calls OCR service :8001
+│   │   │   ├── prediction.service.js : Calls analytics service :8004
+│   │   │   └── report.service.js     : Calls report service :8006
 │   │   └── utils/
 │   │       ├── bcrypt.util.js
 │   │       ├── jwt.util.js
 │   │       └── otp.util.js
 │   ├── uploads/
-│   │   └── slips/                    — Uploaded receipt images
-│   ├── app.js                        — Express setup, routes, middleware
-│   ├── server.js                     — DB connect, sync, server start
+│   │   └── slips/                    : Uploaded receipt images
+│   ├── app.js                        : Express setup, routes, middleware
+│   ├── server.js                     : DB connect, sync, server start
 │   └── package.json
 │
-├── frontend/                         — React + Vite + Tailwind SPA
+├── frontend/                         : React + Vite + Tailwind SPA
 │   ├── public/
 │   │   ├── favicon.svg
 │   │   └── icons.svg
 │   ├── src/
 │   │   ├── assets/
 │   │   ├── components/
-│   │   │   ├── ai-mode/              — Chat bubbles, input bar, panel
-│   │   │   ├── analytics/            — Bar, pie, line charts, predictions
-│   │   │   ├── auth/                 — Login, register, OTP forms
-│   │   │   ├── dashboard/            — Summary cards, home
-│   │   │   ├── expenses/             — Manual form, OCR uploader, list
-│   │   │   ├── gpay/                 — Import zone, setup, transactions
-│   │   │   └── shared/               — Navbar, Sidebar, BottomTabBar,
+│   │   │   ├── ai-mode/              : Chat bubbles, input bar, panel
+│   │   │   ├── analytics/            : Bar, pie, line charts, predictions
+│   │   │   ├── auth/                 : Login, register, OTP forms
+│   │   │   ├── dashboard/            : Summary cards, home
+│   │   │   ├── expenses/             : Manual form, OCR uploader, list
+│   │   │   ├── gpay/                 : Import zone, setup, transactions
+│   │   │   └── shared/               : Navbar, Sidebar, BottomTabBar,
 │   │   │                               Loader, Toast, ProtectedRoute,
 │   │   │                               NotificationBadge
 │   │   ├── context/
@@ -219,7 +222,7 @@ AIFA/
 │   │   │   ├── useExpenses.js
 │   │   │   └── useToast.js
 │   │   ├── layouts/
-│   │   │   └── AppLayout.jsx         — Sidebar + Navbar + content wrapper
+│   │   │   └── AppLayout.jsx         : Sidebar + Navbar + content wrapper
 │   │   ├── pages/
 │   │   │   ├── LandingPage.jsx
 │   │   │   ├── AuthPage.jsx
@@ -231,7 +234,7 @@ AIFA/
 │   │   │   ├── ReportPage.jsx
 │   │   │   └── NotificationsPage.jsx
 │   │   ├── services/
-│   │   │   ├── api.js                — Axios instance + JWT interceptor
+│   │   │   ├── api.js                : Axios instance + JWT interceptor
 │   │   │   ├── analyticsService.js
 │   │   │   ├── authService.js
 │   │   │   ├── chatService.js
@@ -242,14 +245,14 @@ AIFA/
 │   │   ├── utils/
 │   │   │   ├── dateHelpers.js
 │   │   │   └── formatCurrency.js
-│   │   ├── App.jsx                   — Routes + ProtectedRoute + AuthProvider
-│   │   └── index.css                 — Tailwind directives + Google Fonts
+│   │   ├── App.jsx                   : Routes + ProtectedRoute + AuthProvider
+│   │   └── index.css                 : Tailwind directives + Google Fonts
 │   ├── tailwind.config.cjs
 │   ├── postcss.config.cjs
 │   └── package.json
 │
-├── services/                         — 6 Python FastAPI microservices
-│   ├── ai-service/                   — Groq LLM + ChromaDB RAG (port 8003)
+├── services/                         : 6 Python FastAPI microservices
+│   ├── ai-service/                   : Groq LLM + ChromaDB RAG (port 8003)
 │   │   └── app/
 │   │       ├── main.py
 │   │       ├── routes.py
@@ -258,7 +261,7 @@ AIFA/
 │   │       ├── vector_store.py
 │   │       ├── embeddings.py
 │   │       └── llm_client.py
-│   ├── analytics-service/            — Groq + NumPy analytics (port 8004)
+│   ├── analytics-service/            : Groq + NumPy analytics (port 8004)
 │   │   └── app/
 │   │       ├── main.py
 │   │       ├── routes.py
@@ -267,13 +270,13 @@ AIFA/
 │   │       ├── category_classifier.py
 │   │       ├── predictor.py
 │   │       └── trend_analyzer.py
-│   ├── gpay-parser-service/          — BeautifulSoup HTML parser (port 8002)
+│   ├── gpay-parser-service/          : BeautifulSoup HTML parser (port 8002)
 │   │   └── app/
 │   │       ├── main.py
 │   │       ├── routes.py
 │   │       ├── schemas.py
 │   │       └── html_parser.py
-│   ├── notification-service/         — SendGrid + Twilio + Celery (port 8005)
+│   ├── notification-service/         : SendGrid + Twilio + Celery (port 8005)
 │   │   └── app/
 │   │       ├── main.py
 │   │       ├── routes.py
@@ -281,14 +284,14 @@ AIFA/
 │   │       ├── email_sender.py
 │   │       ├── sms_sender.py
 │   │       └── scheduler.py
-│   ├── ocr-service/                  — EasyOCR receipt scanner (port 8001)
+│   ├── ocr-service/                  : EasyOCR receipt scanner (port 8001)
 │   │   └── app/
 │   │       ├── main.py
 │   │       ├── routes.py
 │   │       ├── schemas.py
 │   │       ├── ocr_engine.py
 │   │       └── parser.py
-│   └── report-service/               — ReportLab + Matplotlib PDF (port 8006)
+│   └── report-service/               : ReportLab + Matplotlib PDF (port 8006)
 │       └── app/
 │           ├── main.py
 │           ├── routes.py
@@ -298,9 +301,9 @@ AIFA/
 │           └── utils.py
 │
 ├── docs/
-│   └── API.md                        — Complete API reference
-└── README.md                         — This file
-
+│   └── API.md                        : Complete API reference
+└── README.md                         : This file
+```
 ---
 
 ## Frontend Architecture
@@ -321,18 +324,19 @@ AIFA/
 
 ### State Management
 
-- **AuthContext** — user object, login, logout, isAuthenticated
-- **useExpenses** — expenses array, loading, addExpense, addFromOCR, deleteExpense
-- **useChat** — conversations, messages, sending state, sendMessage, openConversation
-- **useToast** — toast message, type, showToast, hideToast
+- **AuthContext** : user object, login, logout, isAuthenticated
+- **useExpenses** : expenses array, loading, addExpense, addFromOCR, deleteExpense
+- **useChat** : conversations, messages, sending state, sendMessage, openConversation
+- **useToast** : toast message, type, showToast, hideToast
 
 ### API Communication
 
-All calls go through `src/services/api.js` — an axios instance pointed at `http://localhost:5000/api`. JWT token is attached via request interceptor. 401 responses trigger automatic logout and redirect to `/auth`.
+All calls go through `src/services/api.js` : an axios instance pointed at `http://localhost:5000/api`. JWT token is attached via request interceptor. 401 responses trigger automatic logout and redirect to `/auth`.
 
 Frontend never calls Python microservices directly. All service communication is handled by the Node.js backend.
 
 ### Color Palette
+```bash
 Background primary:   #07080F  navy-950
 Background cards:     #0D0E1A  navy-900
 Background elevated:  #12141F  navy-800
@@ -343,12 +347,13 @@ Accent danger:        #F43F5E  rose-500
 Accent warning:       #FBBF24  amber-400
 Text primary:         #F0F0FF
 Text muted:           #94A3B8  slate-400
-
+```
 ---
 
 ## Backend Architecture
 
 ### Request Flow
+```bash
 Frontend Request
 ↓
 Express Middleware (CORS, JSON parse, Morgan logging)
@@ -366,14 +371,15 @@ Controller
 JSON Response to Frontend
 ↓
 Global Error Handler (if any error thrown)
+```
 
 ### Key Design Rules
 
-- **Node owns all DB operations** — Python services never touch PostgreSQL
-- **Single expenses table** — OCR, GPay, and manual entries all go here. `source` column identifies origin
-- **GPay dual-save** — every parsed transaction saves to both `transactions` (raw) and `expenses` (linked via `transactionId`)
-- **Soft delete everywhere** — `deletedAt` timestamp on expenses, transactions, conversations. Never hard delete
-- **Notification recipient from DB** — Node fetches email/phone from user profile. Frontend never passes recipient
+- **Node owns all DB operations** : Python services never touch PostgreSQL
+- **Single expenses table** : OCR, GPay, and manual entries all go here. `source` column identifies origin
+- **GPay dual-save** : every parsed transaction saves to both `transactions` (raw) and `expenses` (linked via `transactionId`)
+- **Soft delete everywhere** : `deletedAt` timestamp on expenses, transactions, conversations. Never hard delete
+- **Notification recipient from DB** : Node fetches email/phone from user profile. Frontend never passes recipient
 
 ---
 
@@ -381,7 +387,8 @@ Global Error Handler (if any error thrown)
 
 All 6 services are Python FastAPI apps. Node.js calls them over HTTP. They do one job each and return JSON.
 
-### OCR Service — Port 8001
+### OCR Service : Port 8001
+```bash
 Node receives: receipt image file (multipart)
 ↓
 Node calls: POST /ocr/extract (multipart file)
@@ -391,8 +398,9 @@ Python: EasyOCR reads image → regex extracts fields
 Returns: { merchant, amount, date, category, raw_text }
 ↓
 Node: creates Expense row with source: "ocr"
-
-### GPay Parser Service — Port 8002
+```
+### GPay Parser Service : Port 8002
+```bash
 Node receives: activity.html file (multipart)
 ↓
 Node calls: POST /gpay/parse (multipart file)
@@ -403,8 +411,10 @@ Returns: { transactions: [{ amount, type, recipient, datetime, status }] }
 ↓
 Node: saves each to Transactions table AND Expenses table
 (dual-save, expenses get source: "gpay", category: "other")
+```
 
-### AI Service — Port 8003
+### AI Service : Port 8003
+```bash
 Node receives: { question } from frontend
 ↓
 Node: fetches user's expenses from PostgreSQL
@@ -419,8 +429,10 @@ Returns: { response: "AI answer text" }
 ↓
 Node: saves AIConversation + 2 AIMessage rows (user + assistant)
 returns answer to frontend
+```
 
-### Analytics Service — Port 8004
+### Analytics Service : Port 8004
+```bash
 Node receives: GET /analytics request
 ↓
 Node: fetches user's expenses from PostgreSQL
@@ -436,7 +448,7 @@ Returns: { total, breakdown, prediction, insights[] }
 ↓
 Node: returns directly to frontend
 
-### Notification Service — Port 8005
+### Notification Service : Port 8005
 Node receives: { type, channel, subject, message }
 ↓
 Node: fetches recipient (email or phone) from user profile
@@ -451,8 +463,9 @@ SendGrid sends email / Twilio sends SMS
 Returns: { success, task_id }
 ↓
 Node: updates NotificationLog status to "sent" or "failed"
-
-### Report Service — Port 8006
+```
+### Report Service : Port 8006
+```bash
 Node receives: POST /reports/generate
 ↓
 Node: fetches expenses + salary from PostgreSQL
@@ -468,12 +481,14 @@ ReportLab assembles branded 3-page PDF
 Returns: { report_path }
 ↓
 Node: returns path to frontend for download
+```
 
 ---
 
 ## Database Schema
 
 ### Complete Schema
+```bash
 users
 id            UUID PK
 name          STRING NOT NULL
@@ -542,8 +557,9 @@ status    ENUM (sent | failed | pending) default pending
 taskId    STRING nullable  ← Celery task ID
 createdAt TIMESTAMP
 updatedAt TIMESTAMP
-
+```
 ### Relationships
+```bash
 User
 ├── 1:Many ──> Expenses       (userId FK, CASCADE delete)
 ├── 1:Many ──> Transactions   (userId FK, CASCADE delete)
@@ -553,12 +569,13 @@ User
 └── 1:Many ──> NotificationLogs (userId FK, CASCADE delete)
 Transaction
 └── 1:Many ──> Expenses (transactionId FK, SET NULL on delete)
-
+```
 ---
 
 ## Data Flow
 
 ### 1. Registration and Login
+```bash
 Frontend                  Backend                  Database
 │                        │                         │
 ├─ POST /auth/register ─>│                         │
@@ -581,8 +598,9 @@ Frontend                  Backend                  Database
 │                        │                         │
 Store token in           │                         │
 localStorage             │                         │
-
+```
 ### 2. Expense via OCR (Slip Scan)
+```bash
 Frontend           Backend           OCR Service        Database
 │                  │                   │                │
 ├─ POST /expense/  │                   │                │
@@ -597,8 +615,9 @@ Frontend           Backend           OCR Service        Database
 │                  ├─ create Expense ──────────────────>│
 │                  │  source: "ocr"    │                │
 │<─ { data, ocr_raw} ──────────────────────────────────┤
-
+```
 ### 3. GPay Import (Dual Save)
+```bash
 Frontend           Backend           GPay Service       Database
 │                  │                   │                │
 ├─ POST /gpay/     │                   │                │
@@ -617,8 +636,9 @@ Frontend           Backend           GPay Service       Database
 │                  │   category: "other")               │
 │<─ { transactions,│                                    │
 │     expenses } ──┤                                    │
-
+```
 ### 4. AI Chat
+```bash
 Frontend        Backend            AI Service          Database
 │               │                    │                 │
 ├─ POST         │                    │                 │
@@ -641,8 +661,9 @@ Frontend        Backend            AI Service          Database
 │               │                                      │
 │<─ { answer,   │                                      │
 │  conversationId } ──────────────────────────────────┤
-
+```
 ### 5. Analytics
+```bash
 Frontend        Backend            Analytics Service
 │               │                    │
 ├─ GET          │                    │
@@ -661,8 +682,9 @@ Frontend        Backend            Analytics Service
 │               │    prediction,     │
 │               │    insights[] }    │
 │<─ { data } ───┤                    │
-
+```
 ### 6. Report Generation
+```bash
 Frontend        Backend            Report Service
 │               │                    │
 ├─ POST         │                    │
@@ -680,8 +702,9 @@ Frontend        Backend            Report Service
 │               │    monthly_trend[]}│
 │               │<─ { report_path } ┤
 │<─ { data } ───┤                    │
-
+```
 ### 7. Notification
+```bash
 Frontend        Backend            Notification Service
 │               │                    │
 ├─ POST         │                    │
@@ -708,7 +731,7 @@ Frontend        Backend            Notification Service
 │<─ { logId,    │                    │
 │    taskId,    │                    │
 │    status } ──┤                    │
-
+```
 ---
 
 ## Development Setup
@@ -720,14 +743,14 @@ Frontend        Backend            Notification Service
 - PostgreSQL 13+
 - Redis (required for notification service Celery)
 
-### Step 1 — Database
+### Step 1 : Database
 
 ```bash
 psql -U postgres -c "CREATE DATABASE aifa_db;"
 psql -U postgres -d aifa_db -f backend/scripts/migrate.sql
 ```
 
-### Step 2 — Backend
+### Step 2 : Backend
 
 ```bash
 cd backend
@@ -737,7 +760,7 @@ npm run dev
 
 Backend runs on `http://localhost:5000`
 
-### Step 3 — Frontend
+### Step 3 : Frontend
 
 ```bash
 cd frontend
@@ -747,7 +770,7 @@ npm run dev
 
 Frontend runs on `http://localhost:5173`
 
-### Step 4 — Python Microservices
+### Step 4 : Python Microservices
 
 Run each in a separate terminal from the `services/` directory:
 
@@ -783,7 +806,7 @@ pip install -r requirements.txt
 uvicorn app.main:app --port 8006 --reload
 ```
 
-### Step 5 — Verify All Services
+### Step 5 : Verify All Services
 
 ```bash
 curl http://localhost:5000/
@@ -802,6 +825,7 @@ All should return a JSON message confirming the service is running.
 ## Environment Variables
 
 ### Backend `.env`
+```bash
 PORT=5000
 DB_HOST=localhost
 DB_PORT=5432
@@ -823,16 +847,18 @@ AI_SERVICE_URL=http://localhost:8003
 ANALYTICS_SERVICE_URL=http://localhost:8004
 NOTIFICATION_SERVICE_URL=http://localhost:8005
 REPORT_SERVICE_URL=http://localhost:8006
-
+```
 ### Frontend `.env`
+```bash
 VITE_API_URL=http://localhost:5000/api
 VITE_GOOGLE_CLIENT_ID=your_google_client_id
-
+```
 ---
 
 ## Additional Resources
-
-- [Backend README](./backend/README.md) — Backend setup, models, routes, troubleshooting
-- [Frontend README](./frontend/README.md) — Frontend setup, pages, services, troubleshooting
-- [API Documentation](./docs/API.md) — Complete REST API reference with request and response shapes
-- [Migration Script](./backend/scripts/migrate.sql) — Database schema creation and column changes
+```bash
+- [Backend README](./backend/README.md) : Backend setup, models, routes, troubleshooting
+- [Frontend README](./frontend/README.md) : Frontend setup, pages, services, troubleshooting
+- [API Documentation](./docs/API.md) : Complete REST API reference with request and response shapes
+- [Migration Script](./backend/scripts/migrate.sql) : Database schema creation and column changes
+```
