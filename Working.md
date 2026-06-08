@@ -3,7 +3,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 1. [Project Overview](#project-overview)
 2. [System Architecture](#system-architecture)
 3. [Technology Stack](#technology-stack)
@@ -17,21 +17,21 @@
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 AIFA is an AI-powered personal finance management application that helps users track expenses, analyze spending patterns, and get intelligent insights. It combines receipt scanning (OCR), Google Pay integration, analytics, and AI-powered chat assistance.
 
 ### Key Features:
-- 📸 Receipt Scanning (OCR Technology)
-- 📱 Google Pay Integration
-- 🤖 AI Chat Assistant (powered by Groq LLM)
-- 📊 Smart Analytics with Predictions
-- 📄 PDF Report Generation
-- 🔔 Email & SMS Notifications
+- Receipt Scanning (OCR Technology)
+- Google Pay Integration
+- AI Chat Assistant (powered by Groq LLM)
+-  Smart Analytics with Predictions
+-  PDF Report Generation
+-  Email & SMS Notifications
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -92,7 +92,7 @@ AIFA is an AI-powered personal finance management application that helps users t
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
@@ -109,7 +109,7 @@ AIFA is an AI-powered personal finance management application that helps users t
 
 ---
 
-## 💻 Frontend Architecture
+## Frontend Architecture
 
 ### Project Structure:
 ```
@@ -122,9 +122,9 @@ frontend/
 │   │   ├── ExpensesPage.jsx          # Expense management
 │   │   ├── GpayPage.jsx              # GPay import
 │   │   ├── AnalyticsPage.jsx         # Charts & insights
-│   │   ├── AiModePage.jsx            # Chat interface ✨ NEW
-│   │   ├── ReportPage.jsx            # PDF generation ✨ NEW
-│   │   └── NotificationsPage.jsx     # Alerts ✨ NEW
+│   │   ├── AiModePage.jsx            # Chat interface 
+│   │   ├── ReportPage.jsx            # PDF generation 
+│   │   └── NotificationsPage.jsx     # Alerts 
 │   │
 │   ├── components/
 │   │   ├── auth/                     # Auth components
@@ -139,13 +139,13 @@ frontend/
 │   │   ├── api.js                    # Axios instance
 │   │   ├── authService.js            # Auth API calls
 │   │   ├── expenseService.js         # Expense API calls
-│   │   ├── chatService.js            # Chat API calls ✨ NEW
-│   │   ├── reportService.js          # Report API calls ✨ NEW
-│   │   └── notificationService.js    # Notification API calls ✨ NEW
+│   │   ├── chatService.js            # Chat API calls 
+│   │   ├── reportService.js          # Report API calls 
+│   │   └── notificationService.js    # Notification API calls 
 │   │
 │   ├── hooks/
 │   │   ├── useAuth.js                # Auth state
-│   │   ├── useChat.js                # Chat state ✨ NEW
+│   │   ├── useChat.js                # Chat state 
 │   │   ├── useExpenses.js            # Expense state
 │   │   └── useToast.js               # Toast notifications
 │   │
@@ -182,7 +182,7 @@ frontend/
 
 ---
 
-## 🚀 Backend Architecture
+## Backend Architecture
 
 ### Backend Structure:
 ```
@@ -299,11 +299,11 @@ Notifications:
 
 ---
 
-## 🔧 Microservices Architecture
+## Microservices Architecture
 
 AIFA uses a **modular microservices architecture** with 6 specialized Python FastAPI services that handle CPU-intensive or specialized tasks independently.
 
-### 1️⃣ OCR Service
+### OCR Service
 **Purpose**: Extract text from receipt images using Optical Character Recognition
 
 ```
@@ -323,7 +323,7 @@ Response: { merchant, amount, date }
 
 ---
 
-### 2️⃣ AI Service
+### AI Service
 **Purpose**: AI chat assistant powered by Groq LLM
 
 ```
@@ -348,7 +348,7 @@ Response: "You spent most on Food: ₹12,500"
 
 ---
 
-### 3️⃣ Analytics Service
+### Analytics Service
 **Purpose**: Compute analytics, trends, and predictions
 
 ```
@@ -374,7 +374,7 @@ Response: { categoryBreakdown, trends, predictions }
 
 ---
 
-### 4️⃣ GPay Parser Service
+### GPay Parser Service
 **Purpose**: Parse Google Pay activity.html file and extract transactions
 
 ```
@@ -398,7 +398,7 @@ Response: [{ date, merchant, amount }, ...]
 
 ---
 
-### 5️⃣ Report Service
+### Report Service
 **Purpose**: Generate professional PDF reports with visualizations
 
 ```
@@ -424,7 +424,7 @@ Response: { report_path, fileName }
 
 ---
 
-### 6️⃣ Notification Service
+### Notification Service
 **Purpose**: Send email and SMS notifications
 
 ```
@@ -450,7 +450,7 @@ Response: { status: "sent" }
 
 ---
 
-## 📊 Database Schema
+## Database Schema
 
 ### Database: PostgreSQL
 
@@ -554,7 +554,7 @@ User
 
 ---
 
-## 🔄 Data Flow
+## Data Flow
 
 ### 1. User Registration & Authentication Flow
 ```
@@ -636,7 +636,7 @@ Frontend              Backend           Notification Service
 
 ---
 
-## 🌐 API Communication Pattern
+## API Communication Pattern
 
 ### Request Flow:
 ```
@@ -683,7 +683,7 @@ Client Response: { success: true, expense: {...} }
 
 ---
 
-## 📈 Scalability & Performance
+## Scalability & Performance
 
 ### Optimization Strategies:
 
@@ -698,14 +698,20 @@ Client Response: { success: true, expense: {...} }
 
 ---
 
-## 🚢 Deployment Architecture
+## Deployment Architecture
 
 ### Development:
 ```
 npm run dev (Frontend on :5173)
 nodemon (Backend on :5000)
-uvicorn (Microservices on :8000-8006)
-PostgreSQL (Local DB)
+uvicorn Services:
+  - ocr-service on :8001
+  - gpay-parser-service on :8002
+  - ai-service on :8003
+  - analytics-service on :8004
+  - notification-service on :8005
+  - report-service on :8006
+PostgreSQL (Local DB on :5432)
 ```
 
 ### Production:
@@ -724,26 +730,58 @@ services:
   postgres:
     image: postgres:15
     ports: ["5432:5432"]
+    environment:
+      POSTGRES_DB: aifa_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
   
   backend:
     build: ./backend
     ports: ["5000:5000"]
     depends_on: [postgres]
+    environment:
+      - DB_HOST=postgres
+      - OCR_SERVICE_URL=http://ocr-service:8000
+      - AI_SERVICE_URL=http://ai-service:8000
+      - GPAY_SERVICE_URL=http://gpay-service:8000
+      - ANALYTICS_SERVICE_URL=http://analytics-service:8000
+      - REPORT_SERVICE_URL=http://report-service:8000
+      - NOTIFICATION_SERVICE_URL=http://notification-service:8000
   
   ocr-service:
     build: ./services/ocr-service
     ports: ["8001:8000"]
+    container_name: ocr-service
+  
+  gpay-parser-service:
+    build: ./services/gpay-parser-service
+    ports: ["8002:8000"]
+    container_name: gpay-service
   
   ai-service:
     build: ./services/ai-service
-    ports: ["8002:8000"]
+    ports: ["8003:8000"]
+    container_name: ai-service
   
-  # ... other services
+  analytics-service:
+    build: ./services/analytics-service
+    ports: ["8004:8000"]
+    container_name: analytics-service
+  
+  notification-service:
+    build: ./services/notification-service
+    ports: ["8005:8000"]
+    container_name: notification-service
+  
+  report-service:
+    build: ./services/report-service
+    ports: ["8006:8000"]
+    container_name: report-service
 ```
 
 ---
 
-## 🔐 Security Measures
+## Security Measures
 
 - **JWT Tokens**: Secure API authentication
 - **Password Hashing**: bcryptjs with salt rounds
@@ -757,7 +795,7 @@ services:
 
 ---
 
-## 📝 Environment Variables
+## Environment Variables
 
 ### Backend (.env):
 ```
@@ -789,9 +827,13 @@ GOOGLE_CLIENT_SECRET=your_secret
 # Groq LLM
 GROQ_API_KEY=your_groq_key
 
-# Services
+# Microservices URLs
 OCR_SERVICE_URL=http://localhost:8001
-AI_SERVICE_URL=http://localhost:8002
+GPAY_SERVICE_URL=http://localhost:8002
+AI_SERVICE_URL=http://localhost:8003
+ANALYTICS_SERVICE_URL=http://localhost:8004
+NOTIFICATION_SERVICE_URL=http://localhost:8005
+REPORT_SERVICE_URL=http://localhost:8006
 ```
 
 ### Frontend (.env):
@@ -827,23 +869,46 @@ cd frontend
 npm install
 npm run dev
 
-# Microservices (individual terminals)
+# Microservices (run each in separate terminal)
+
+# Terminal 1 - OCR Service
 cd services/ocr-service
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8001
+uvicorn app.main:app --port 8001 --reload
 
+# Terminal 2 - GPay Parser Service
+cd services/gpay-parser-service
+pip install -r requirements.txt
+uvicorn app.main:app --port 8002 --reload
+
+# Terminal 3 - AI Service
 cd services/ai-service
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8002
+uvicorn app.main:app --port 8003 --reload
 
-# Database Setup
+# Terminal 4 - Analytics Service
+cd services/analytics-service
+pip install -r requirements.txt
+uvicorn app.main:app --port 8004 --reload
+
+# Terminal 5 - Notification Service
+cd services/notification-service
+pip install -r requirements.txt
+uvicorn app.main:app --port 8005 --reload
+
+# Terminal 6 - Report Service
+cd services/report-service
+pip install -r requirements.txt
+uvicorn app.main:app --port 8006 --reload
+
+# Database Setup (separate terminal)
 # Create PostgreSQL database and run migrations
 psql -U postgres -d aifa_db -f backend/scripts/migrate.sql
 ```
 
 ---
 
-## 📦 Project Structure Summary
+## Project Structure Summary
 
 ```
 AIFA/
@@ -876,14 +941,13 @@ AIFA/
 │   └── notification-service/ # Email & SMS
 │
 ├── public/                    # Public assets
-├── .gitignore                 # Git ignore rules (UPDATED ✨)
-├── Working.md                 # This file ✨ NEW
-└── README.md
+├── Working.md                 # HOW AIFA WORKS
+└── README-phae0.md
 ```
 
 ---
 
-## 🎯 Key Features & Technologies
+## Key Features & Technologies
 
 | Feature | Technology | Service |
 |---------|-----------|---------|
@@ -898,7 +962,7 @@ AIFA/
 
 ---
 
-## 📞 API Rate Limits
+## API Rate Limits
 
 - **Authentication**: 5 requests/minute
 - **Expenses**: 100 requests/minute
@@ -908,7 +972,7 @@ AIFA/
 
 ---
 
-## 🐛 Error Handling
+## Error Handling
 
 All errors follow a standard JSON format:
 
@@ -932,7 +996,7 @@ All errors follow a standard JSON format:
 
 ---
 
-## 📊 Performance Metrics
+## Performance Metrics
 
 - **Frontend**: LightHouse Score > 80
 - **API Response Time**: < 200ms (avg)
@@ -942,7 +1006,7 @@ All errors follow a standard JSON format:
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - [ ] Mobile app (React Native)
 - [ ] Real-time notifications (WebSocket)
@@ -955,13 +1019,13 @@ All errors follow a standard JSON format:
 
 ---
 
-## 📄 License
+## License
 
 This project is proprietary. All rights reserved.
 
 ---
 
-## 👥 Contributing
+## Contributing
 
 For contribution guidelines, please reach out to the development team.
 
@@ -969,11 +1033,11 @@ For contribution guidelines, please reach out to the development team.
 
 **Last Updated**: 2026-06-08  
 **Architecture Version**: 2.0 (Microservices)  
-**Stability**: Production Ready ✅
+**Stability**: Production Ready 
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 - [Backend Setup Guide](./backend/README.md)
 - [Frontend Setup Guide](./frontend/README.md)
