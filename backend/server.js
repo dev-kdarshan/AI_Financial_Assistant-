@@ -1,14 +1,19 @@
 const app = require("./app");
-const sequelize = require("./src/config/db");
 const env = require("./src/config/env");
 
-require("./src/models/index");
+const {
+  sequelize,
+} = require("./src/models");
 
 const startServer = async () => {
   try {
     await sequelize.authenticate();
 
     console.log("Database connected");
+
+    await sequelize.sync();
+
+    console.log("Database tables synced successfully");
 
     app.listen(env.PORT, "0.0.0.0", () => {
       console.log(
