@@ -3,6 +3,7 @@ const env = require("./src/config/env");
 
 const {
   sequelize,
+  syncDatabase,
 } = require("./src/models");
 
 const startServer = async () => {
@@ -11,9 +12,7 @@ const startServer = async () => {
 
     console.log("Database connected");
 
-    await sequelize.sync();
-
-    console.log("Database tables synced successfully");
+    await syncDatabase();
 
     app.listen(env.PORT, "0.0.0.0", () => {
       console.log(

@@ -94,4 +94,5 @@ module.exports = {
   AIConversation,
   AIMessage,
   NotificationLog,
+  syncDatabase,
 };
