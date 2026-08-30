@@ -70,26 +70,6 @@ def debug_user_vectors(user_id: str):
         ]
     }
 
-    collection = get_user_collection(
-        user_id
-    )
-
-    data = collection.get(
-    include=["documents", "embeddings"]
-    )
-
-    return {
-        "user_id": user_id,
-        "count": collection.count(),
-        "documents": data.get("documents"),
-        "ids": data.get("ids"),
-        "embeddings_preview": [
-            emb[:10].tolist()
-            for emb in embeddings
-        ]
-    }
-
-
 @router.get("/stats/{user_id}")
 def stats(user_id: str):
 

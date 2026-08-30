@@ -23,6 +23,13 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "healthy",
+    service: "backend",
+  });
+});
+
 // Routes
 app.use("/api/auth", require("./src/routes/auth.routes"));
 app.use("/api/user", require("./src/routes/user.routes"));

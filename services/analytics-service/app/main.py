@@ -15,5 +15,9 @@ app.include_router(
 def root():
 
     return {
-        "message": "Analytics Service Running 🚀"
+        "message": "Analytics Service Running"
     }
+
+@app.get("/health")
+def health():
+    return {"status": "healthy"}

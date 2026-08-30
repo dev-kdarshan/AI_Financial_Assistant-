@@ -1,33 +1,32 @@
 const axios = require("axios");
+const env = require("../config/env");
 
-const REPORT_SERVICE_URL =
-  "http://localhost:8006";
-
-
-const generateFinancialReport = async (
-  reportData
-) => {
-
+const generateFinancialReport = async (reportData) => {
   try {
-
     const response = await axios.post(
-      `${REPORT_SERVICE_URL}/generate-report`,
-      reportData
+      `${env.REPORT_SERVICE_URL}/generate-report`,
+      reportData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        timeout: 60000,
+      }
     );
 
     return response.data;
-
   } catch (error) {
-
     console.error(
       "Report Service Error:",
       error.message
     );
 
-    throw error;
+    throw new Error(
+      "Report service failed: " + error.message
+    );
   }
 };
 
 module.exports = {
-  generateFinancialReport
+  generateFinancialReport,
 };

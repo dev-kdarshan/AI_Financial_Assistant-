@@ -7,17 +7,21 @@ require("./src/models/index");
 const startServer = async () => {
   try {
     await sequelize.authenticate();
+
     console.log("Database connected");
 
-    await sequelize.sync({ alter: true });
-    console.log("Models synced");
-
-    app.listen(env.PORT, () => {
-      console.log(`Server running on http://localhost:${env.PORT}`);
+    app.listen(env.PORT, "0.0.0.0", () => {
+      console.log(
+        `Server running on port ${env.PORT}`
+      );
     });
 
   } catch (error) {
-    console.error("Failed to start server:", error);
+    console.error(
+      "Failed to start server:",
+      error
+    );
+
     process.exit(1);
   }
 };

@@ -1,19 +1,17 @@
-FROM node:14
+FROM node:22-alpine
 
-# Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package.json and package-lock.json
+ENV NODE_ENV=production
+
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+RUN npm ci --omit=dev
 
-# Copy the rest of the application code
 COPY . .
 
-# Expose the application port
-EXPOSE 3000
+RUN mkdir -p /app/uploads/slips
 
-# Command to run the application
+EXPOSE 5000
+
 CMD ["node", "server.js"]

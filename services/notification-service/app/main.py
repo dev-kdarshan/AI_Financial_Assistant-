@@ -17,3 +17,7 @@ def root():
     return {
         "message": "Notification Service Running"
     }
+
+@app.get("/health")
+def health():
+    return {"status": "healthy"}

@@ -11,3 +11,7 @@ app.include_router(router, prefix="/ocr")
 @app.get("/")
 def root():
     return {"message": "OCR Service Running"}
+
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
