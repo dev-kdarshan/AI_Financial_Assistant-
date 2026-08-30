@@ -1,0 +1,17 @@
+# Contents of /AIFA/AIFA/services/report-service/.dockerignore
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+*.env
+*.DS_Store
+*.egg-info/
+*.egg
+__init__.py
+*.html
+uploads/
+reports/

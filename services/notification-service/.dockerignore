@@ -1,0 +1,12 @@
+# File: /AIFA/AIFA/services/notification-service/.dockerignore
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+*.env
+*.DS_Store
+uploads/
