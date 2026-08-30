@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+
 const env = require("./env");
 
 const sequelize = new Sequelize(
@@ -10,6 +11,13 @@ const sequelize = new Sequelize(
     port: env.DB_PORT,
     dialect: env.DB_DIALECT,
     logging: false,
+
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   }
 );
 
