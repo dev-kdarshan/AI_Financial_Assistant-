@@ -17,7 +17,7 @@ const extractFromSlip = async (fileBuffer, originalName, mimetype) => {
         headers: {
           ...form.getHeaders(),
         },
-        timeout: 30000,
+        timeout: 60000,
       }
     );
 

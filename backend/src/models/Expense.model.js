@@ -37,7 +37,7 @@ const Expense = sequelize.define("Expense", {
     allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   transactionId: {
