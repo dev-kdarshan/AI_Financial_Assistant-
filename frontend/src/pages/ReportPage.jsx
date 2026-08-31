@@ -24,37 +24,26 @@ function ReportPage() {
   };
 
   const handleDownload = async () => {
-  try {
-    if (!reportData?.downloadUrl) return;
+     try {
+        const response = await reportService.downloadReport(reportData.fileName);
 
-    const response = await reportService.downloadReport(
-      reportData.downloadUrl
-    );
+        const url = window.URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+     );
 
-    const blob = new Blob(
-      [response.data],
-      { type: "application/pdf" }
-    );
+     const link = document.createElement("a");
+     link.href = url;
+     link.setAttribute("download", reportData.fileName);
+     document.body.appendChild(link);
+     link.click();
+     link.remove();
 
-    const url = window.URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute(
-      "download",
-      reportData.fileName || "AIFA_Financial_Report.pdf"
-    );
-
-    document.body.appendChild(link);
-    link.click();
-
-    link.remove();
-    window.URL.revokeObjectURL(url);
-   }catch (err) {
-    console.error("Download failed:", err);
+     window.URL.revokeObjectURL(url);
+    } catch (err) {
     showToast("Failed to download report", "error");
-   }
+    }
   };
+
   const handleGenerateNew = () => {
     setState("idle");
     setReportData(null);
