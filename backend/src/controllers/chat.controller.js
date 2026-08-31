@@ -75,7 +75,7 @@ exports.askAI = async (req, res, next) => {
       expenses
     );
 
-    const answer = aiResponse.response;
+    const answer = aiResponse.response.answer;
 
     // Save assistant reply to DB
     await AIMessage.create({
