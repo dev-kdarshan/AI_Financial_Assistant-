@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse
+import os
 from pydantic import BaseModel
 from typing import List
 
@@ -68,7 +70,27 @@ async def generate_report(data: ReportRequest):
         trend_chart=trend_chart
     )
 
+    filename = os.path.basename(pdf_path)
+
     return {
         "message": "Professional financial report generated",
-        "pdf_path": pdf_path
+        "fileName": filename,
+        "download_url": f"/download-report/{filename}"
     }
+
+@router.get("/download-report/{filename}")
+async def download_report(filename: str):
+
+    file_path = os.path.join("reports", filename)
+
+    if not os.path.exists(file_path):
+        raise HTTPException(
+            status_code=404,
+            detail="Report not found"
+        )
+
+    return FileResponse(
+        path=file_path,
+        media_type="application/pdf",
+        filename=filename
+    )

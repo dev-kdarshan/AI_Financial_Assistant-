@@ -57,10 +57,16 @@ exports.generateReport = async (req, res, next) => {
       }
     );
 
+    const reportData = response.data;
+
     res.json({
-      success: true,
-      data: response.data,
-    });
+    success: true,
+    data: {
+        message: reportData.message,
+        fileName: reportData.fileName,
+        downloadUrl: `${env.REPORT_SERVICE_URL}${reportData.download_url}`,
+     },
+   });
   } catch (err) {
     next(err);
   }

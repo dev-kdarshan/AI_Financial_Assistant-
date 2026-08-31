@@ -24,8 +24,8 @@ function ReportPage() {
   };
 
   const handleDownload = () => {
-    if (reportData?.report_path) {
-      window.open(reportData.report_path, "_blank");
+    if (reportData?.downloadUrl) {
+      window.open(reportData.downloadUrl, "_blank");
     }
   };
 
