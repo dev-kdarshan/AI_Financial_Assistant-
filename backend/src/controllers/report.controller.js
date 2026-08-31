@@ -60,13 +60,41 @@ exports.generateReport = async (req, res, next) => {
     const reportData = response.data;
 
     res.json({
-    success: true,
-    data: {
+      success: true,
+      data: {
         message: reportData.message,
         fileName: reportData.fileName,
-        downloadUrl: `${env.REPORT_SERVICE_URL}${reportData.download_url}`,
-     },
-   });
+        downloadUrl: `/api/reports/download/${reportData.fileName}`,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.downloadReport = async (req, res, next) => {
+  try {
+    const { filename } = req.params;
+
+    const response = await axios.get(
+      `${env.REPORT_SERVICE_URL}/download-report/${filename}`,
+      {
+        responseType: "stream",
+        timeout: 60000,
+      }
+    );
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${filename}"`
+    );
+
+    res.setHeader(
+      "Content-Type",
+      response.headers["content-type"] || "application/pdf"
+    );
+
+    response.data.pipe(res);
   } catch (err) {
     next(err);
   }

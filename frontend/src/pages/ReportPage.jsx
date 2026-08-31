@@ -23,12 +23,38 @@ function ReportPage() {
     }
   };
 
-  const handleDownload = () => {
-    if (reportData?.downloadUrl) {
-      window.open(reportData.downloadUrl, "_blank");
-    }
-  };
+  const handleDownload = async () => {
+  try {
+    if (!reportData?.downloadUrl) return;
 
+    const response = await reportService.downloadReport(
+      reportData.downloadUrl
+    );
+
+    const blob = new Blob(
+      [response.data],
+      { type: "application/pdf" }
+    );
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute(
+      "download",
+      reportData.fileName || "AIFA_Financial_Report.pdf"
+    );
+
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+    window.URL.revokeObjectURL(url);
+   }catch (err) {
+    console.error("Download failed:", err);
+    showToast("Failed to download report", "error");
+   }
+  };
   const handleGenerateNew = () => {
     setState("idle");
     setReportData(null);

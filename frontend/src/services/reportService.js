@@ -1,5 +1,11 @@
 import api from "./api";
 
-const generateReport = async () => (await api.post("/reports/generate")).data;
+const generateReport = async () =>
+  (await api.post("/reports/generate")).data;
 
-export default { generateReport };
+const downloadReport = async (url) =>
+  api.get(url, {
+    responseType: "blob",
+  });
+
+export default { generateReport, downloadReport };
